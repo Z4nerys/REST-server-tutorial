@@ -16,7 +16,7 @@ const router = Router();
 router.get('/', usuariosGet);
 //mando la referencia a la funcion. no es que la este ejecutando. x eso va sin parentesis
 
-router.put('/', usuariosPut)
+router.put('/:id', usuariosPut)
 
 router.post('/', usuariosPost)
 
