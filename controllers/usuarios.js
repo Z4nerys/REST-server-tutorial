@@ -3,6 +3,7 @@
 
 //aca se crean funciones y las exportamos. solamente eso
 //const {response} = require('express');
+
 const bcryptjs = require('bcryptjs');
 
 const Usuario = require('../models/usuario')
@@ -36,14 +37,6 @@ const usuariosPost= async (req, res = response) => {
 
     //creo una instancia del schema de la base de datos con los datos recibidos en el body
     const usuario = new Usuario({nombre, correo, password, rol});
-
-    //verificar que el correo existe
-    const emailExist = await Usuario.findOne({correo})
-    if( emailExist ){
-        return res.status(400).json({
-            msg: 'Ese correo ya está registrado'
-        });
-    }
 
     //encriptar la contraseña
     const salt = bcryptjs.genSaltSync();

@@ -33,4 +33,12 @@ const UsuarioSchema = Schema({
 
 })
 
+//sobreescribir metodo toJSON
+//es un metodo ya existente y no lo tengo que llamar xq se ejecuta cuando creo un usuario y me devuelve los datos que quiero
+UsuarioSchema.methods.toJSON = function(){
+    //desestructuro 2 elementos y el resto los almaceno en user
+    const { __v, password, ...user} = this.toObject();
+    return user;
+}
+
 module.exports = model( 'Usuario', UsuarioSchema )
