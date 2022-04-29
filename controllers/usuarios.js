@@ -4,6 +4,11 @@
 //aca se crean funciones y las exportamos. solamente eso
 //const {response} = require('express');
 
+const bcryptjs = require('bcryptjs');
+const { validationResult } = require('express-validator');
+
+const Usuario = require('../models/usuario')
+
 const usuariosGet = (req, res) => {
     //en el get recibo las querys => /usuarios?q=hola&nombre=fernando&apikey=12345
     const {q, nombre, apikey} = req.query;
@@ -25,15 +30,41 @@ const usuariosPut = (req, res = response) => {
     })
 }
 
-const usuariosPost= (req, res = response) => {
-    const {nombre, edad} = req.body;
-    const id = req.params;
+const usuariosPost= async (req, res = response) => {
+    //el POST envia data x el body
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json(errors)
+    }
+
+    //recibo la data
+    const {nombre, correo, password, rol} = req.body;
+
+    //creo una instancia del schema de la base de datos con los datos recibidos en el body
+    const usuario = new Usuario({nombre, correo, password, rol});
+
+    //verificar que el correo existe
+    const emailExist = await Usuario.findOne({correo})
+    if( emailExist ){
+        return res.status(400).json({
+            msg: 'Ese correo ya está registrado'
+        });
+    }
+
+    //encriptar la contraseña
+    const salt = bcryptjs.genSaltSync();
+    //dentro del genSaltSync va un numero y eso indica la cantidad de vueltas.
+    //mientras mayor sea el numero, mas segura va a ser la contraseña. pero a su vez mas va a tardar el proceso
+    //x defecto tiene el valor 10. genSaltSync()
+    usuario.password = bcryptjs.hashSync(password, salt)
+
+    //guardar en la base de datos
+    await usuario.save();
+
+    //muestro los datos 
     res.json({
-        msj: 'post API - controlador',
-        edad,
-        nombre,
-        id
-    })
+        usuario
+    });
 }
 
 const usuariosDelete = (req, res = response) => {
