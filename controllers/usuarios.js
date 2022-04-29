@@ -3,9 +3,7 @@
 
 //aca se crean funciones y las exportamos. solamente eso
 //const {response} = require('express');
-
 const bcryptjs = require('bcryptjs');
-const { validationResult } = require('express-validator');
 
 const Usuario = require('../models/usuario')
 
@@ -32,10 +30,6 @@ const usuariosPut = (req, res = response) => {
 
 const usuariosPost= async (req, res = response) => {
     //el POST envia data x el body
-    const errors = validationResult(req);
-    if(!errors.isEmpty()){
-        return res.status(400).json(errors)
-    }
 
     //recibo la data
     const {nombre, correo, password, rol} = req.body;

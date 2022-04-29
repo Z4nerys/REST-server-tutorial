@@ -2,22 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const { dbConnection } = require('../database/config');
 //express con clases
-const data = {
-    "data": {
-        "students": [
-            {
-                "id": 1,
-                "name": "gasty",
-                "age": 23
-            },
-            {
-                "id": 2,
-                "name": "matias",
-                "age": 18
-            }
-        ]
-    }
-}
 class Server {
 
     constructor() {
