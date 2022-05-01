@@ -10,6 +10,7 @@ const Usuario = require('../models/usuario')
 
 const usuariosGet = (req, res) => {
     //en el get recibo las querys => /usuarios?q=hola&nombre=fernando&apikey=12345
+    //el get es para mostrar datos
     const {q, nombre, apikey} = req.query;
     res.json({
         msj: 'get API - controlador',
@@ -19,18 +20,8 @@ const usuariosGet = (req, res) => {
     })
 }
 
-const usuariosPut = (req, res = response) => {
-    //en el put puedo recibir por params => /:id
-    const id = req.params.id;
-    console.log(id)
-    res.json({
-        msj: 'put API - controlador.',
-        id
-    })
-}
-
 const usuariosPost= async (req, res = response) => {
-    //el POST envia data x el body
+    //el POST envia data x el body. el POST es para crear usuarios
 
     //recibo la data
     const {nombre, correo, password, rol} = req.body;
@@ -47,12 +38,33 @@ const usuariosPost= async (req, res = response) => {
 
     //guardar en la base de datos
     await usuario.save();
-
     //muestro los datos 
     res.json({
         usuario
     });
 }
+
+const usuariosPut = async(req, res = response) => {
+    //put es para actualizar usuarios
+    //en el put puedo recibir por params => /:id
+    const {id} = req.params;
+    const {password, google, ...resto} = req.body
+
+    //validacion contra base de datos
+    //hacer validacion del ID
+    if ( password ){
+        const salt = bcryptjs.genSaltSync();
+        resto.password = bcryptjs.hashSync(password, salt)
+    }
+
+    const usuario = await Usuario.findByIdAndUpdate(id, resto)
+
+    res.json({
+        msj: 'put API - controlador.',
+        usuario
+    })
+}
+
 
 const usuariosDelete = (req, res = response) => {
     
