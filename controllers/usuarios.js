@@ -47,8 +47,8 @@ const usuariosPost= async (req, res = response) => {
 const usuariosPut = async(req, res = response) => {
     //put es para actualizar usuarios
     //en el put puedo recibir por params => /:id
-    const {id} = req.params;
-    const {password, google, ...resto} = req.body
+    const { id } = req.params;
+    const {_id, password, google, ...resto} = req.body
 
     //validacion contra base de datos
     //hacer validacion del ID
@@ -56,8 +56,8 @@ const usuariosPut = async(req, res = response) => {
         const salt = bcryptjs.genSaltSync();
         resto.password = bcryptjs.hashSync(password, salt)
     }
-
-    const usuario = await Usuario.findByIdAndUpdate(id, resto)
+    
+    const usuario = await Usuario.findByIdAndUpdate(id, resto, {new: true})
 
     res.json({
         msj: 'put API - controlador.',
@@ -67,7 +67,6 @@ const usuariosPut = async(req, res = response) => {
 
 
 const usuariosDelete = (req, res = response) => {
-    
     res.json({
         msj: 'delete API - controlador'
     })

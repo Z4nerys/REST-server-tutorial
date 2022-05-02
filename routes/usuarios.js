@@ -7,7 +7,7 @@ const {
     usuariosDelete,
     usuariosPatch
 } = require('../controllers/usuarios');
-const { esRoleValido, emailExiste } = require('../helpers/db-validators');
+const { esRoleValido, emailExiste, existeUsuarioPorId } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 
 const router = Router();
@@ -19,7 +19,13 @@ const router = Router();
 router.get('/', usuariosGet);
 //mando la referencia a la funcion. no es que la este ejecutando. x eso va sin parentesis
 
-router.put('/:id', usuariosPut)
+router.put('/:id',[
+    //hacer validaciones del id
+    check('id', 'No es un ID válido de mongo').isMongoId(),
+    check('id').custom(existeUsuarioPorId),
+    check('rol').custom(esRoleValido),
+    validarCampos
+], usuariosPut)
 
 router.post('/',[
     check('nombre', 'El nombre es obligatorio y tiene que ser un string').not().isEmpty().isString(),
