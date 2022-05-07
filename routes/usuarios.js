@@ -16,7 +16,11 @@ const router = Router();
 //este archivo contiene las rutas
 
 //endpoints
-router.get('/', usuariosGet);
+router.get('/',[
+    check('limite', "limite tiene que ser un número").isNumeric(),
+    check('desde', 'Desde tiene que ser un número').isNumeric(),
+    validarCampos
+], usuariosGet);
 //mando la referencia a la funcion. no es que la este ejecutando. x eso va sin parentesis
 
 router.put('/:id',[
