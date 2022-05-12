@@ -11,13 +11,25 @@ const Usuario = require('../models/usuario')
 const usuariosGet = async (req, res) => {
     //en el get recibo las querys => /usuarios?q=hola&nombre=fernando&apikey=12345
     //el get es para mostrar datos
-    const { limite = 5, desde = 0 } = req.query;
     
-    const usuarios = await Usuario.find()
+    const { limite = 5, desde = 0 } = req.query;
+
+    const query = {estado: true}
+    
+    //puedo mandar todas las promesas para que se ejecuten al mismo tiempo. asi me ahorro tiempo
+    //xq si uso await por separado uno tarda 3 seg y la otra 3 y son 6 segundos xq no se ejecuta la siguiente
+    //si la primera no termina de ejecutarse pero de esta forma
+    //mando todas a la vez, si las 2 duran 3 segundos, entonces todo dura 3 segundos
+    const [total, usuarios] = await Promise.all([
+        Usuario.countDocuments(query),
+        Usuario.find(query)
         .skip(desde)
         .limit(limite)
+    ]);
+    //desestructuración de objetos tmb es posible
 
     res.json({
+        total,
         usuarios
     })
 }
