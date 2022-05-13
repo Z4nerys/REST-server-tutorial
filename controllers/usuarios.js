@@ -54,6 +54,7 @@ const usuariosPost= async (req, res = response) => {
     await usuario.save();
     //muestro los datos 
     res.json({
+        msg: 'Usuario Created',
         usuario
     });
 }
@@ -77,10 +78,15 @@ const usuariosPut = async(req, res = response) => {
 }
 
 
-const usuariosDelete = (req, res = response) => {
-    res.json({
-        msj: 'delete API - controlador'
-    })
+const usuariosDelete = async(req, res = response) => {
+    const { id } = req.params;
+    //borrar fisicamente
+    //const usuario = await Usuario.findByIdAndRemove(id);
+
+    //elimino de esta forma asi no rompo con la integridad de la base de datos, lo que quiere decir es que si el usuario
+    //eliminado hizo cosas cuando estaba activo, no se pierda esta referencia cuando se elimine.
+    const usuario = await Usuario.findByIdAndUpdate(id, {estado: false}, {new: true});
+    res.json(usuario)
 }
 
 const usuariosPatch = (req, res = response) => {
