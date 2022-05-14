@@ -1,8 +1,8 @@
-#WebServer + RestServer
+# WebServer + RestServer
 
-correr proyecto
+# correr proyecto
 1. npm install
 2. node app
 
-# para mayor facilidad de probar. utilizar 
+# para mayor facilidad de probar. utilizar
 nodemon app
