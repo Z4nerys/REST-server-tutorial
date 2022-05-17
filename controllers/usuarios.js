@@ -34,7 +34,7 @@ const usuariosGet = async (req, res) => {
     })
 }
 
-const usuariosPost= async (req, res = response) => {
+const usuariosPost = async (req, res = response) => {
     //el POST envia data x el body. el POST es para crear usuarios
 
     //recibo la data
@@ -96,10 +96,10 @@ const usuariosPatch = (req, res = response) => {
     })
 }
 
-module.exports ={
+module.exports = {
     usuariosGet,
     usuariosPut,
     usuariosPost,
     usuariosDelete,
-    usuariosPatch
+    usuariosPatch,
 }

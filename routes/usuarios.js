@@ -5,8 +5,9 @@ const {
     usuariosPut,
     usuariosPost,
     usuariosDelete,
-    usuariosPatch
+    usuariosPatch,
 } = require('../controllers/usuarios');
+
 const { esRoleValido, emailExiste, existeUsuarioPorId } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 
