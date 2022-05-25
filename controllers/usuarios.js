@@ -59,7 +59,7 @@ const usuariosPost = async (req, res = response) => {
     });
 }
 
-const usuariosPut = async(req, res = response) => {
+const usuariosPut= async(req, res = response) => {
     //put es para actualizar usuarios
     //en el put puedo recibir por params => /:id
     const { id } = req.params;

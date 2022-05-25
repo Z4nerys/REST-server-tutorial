@@ -37,7 +37,9 @@ const UsuarioSchema = Schema({
 //es un metodo ya existente y no lo tengo que llamar xq se ejecuta cuando creo un usuario y me devuelve los datos que quiero
 UsuarioSchema.methods.toJSON = function(){
     //desestructuro 2 elementos y el resto los almaceno en user
-    const { __v, password, ...user} = this.toObject();
+    const { __v, password, _id , ...user} = this.toObject();
+    //renombrando la forma en como se muestra el id
+    user.uid = _id
     return user;
 }
 

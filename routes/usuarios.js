@@ -10,6 +10,7 @@ const {
 
 const { esRoleValido, emailExiste, existeUsuarioPorId } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
+const { validarJWT } = require('../middlewares/validar-jwt');
 
 const router = Router();
 //este archivo tiene que llamarse de la misma forma que en el controlador
@@ -42,6 +43,7 @@ router.post('/',[
 ], usuariosPost)
 
 router.delete('/:id',[
+    validarJWT,
     check('id', 'No es un ID válido de mongo').isMongoId(),
     check('id').custom(existeUsuarioPorId),
     validarCampos
