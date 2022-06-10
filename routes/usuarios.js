@@ -8,10 +8,15 @@ const {
     usuariosPatch,
 } = require('../controllers/usuarios');
 
+//como se llama index, no hace falta poner middlewares/index
+const {
+    validarCampos,
+    validarJWT,
+    esAdminRole,
+    tieneRole
+} = require('../middlewares')
+
 const { esRoleValido, emailExiste, existeUsuarioPorId } = require('../helpers/db-validators');
-const { validarCampos } = require('../middlewares/validar-campos');
-const { validarJWT } = require('../middlewares/validar-jwt');
-const { esAdminRole, tieneRole } = require('../middlewares/validar-roles');
 
 const router = Router();
 //este archivo tiene que llamarse de la misma forma que en el controlador
