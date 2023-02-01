@@ -25,11 +25,9 @@ class Server {
     }
 
     middlewares() {
-        //CORS
-        //lo tengo que usar xq sino puedo tener problemas en la web, cuando haga peticiones
+        //CORS lo tengo que usar xq sino puedo tener problemas en la web, cuando haga peticiones
         this.app.use(cors())
         //no hace nada. solo es para que se puedan hacer peticiones
-
 
         //middlewares para recibir datos
         //lecutra y parseio del body
@@ -47,11 +45,9 @@ class Server {
 
     listen() {
         this.app.listen(this.port, () => {
-            console.log('servidor corriendo en puerto: ', this.port)
+            console.log('servidor corriendo en puerto:', this.port)
         })
     }
-
 }
-
 
 module.exports = Server;
